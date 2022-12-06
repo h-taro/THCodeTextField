@@ -6,8 +6,6 @@ public struct THCodeTextField: View {
     
     private var text: Binding<String>
     private var focusTag: Binding<Int?>
-    private let doneStringKey: String
-    private let tableName: String
     private let tag: Int
     private let tapTextFieldSubject: PassthroughSubject<Int, Never>
     private let editingChangedSubject: PassthroughSubject<Void, Never>
@@ -16,8 +14,6 @@ public struct THCodeTextField: View {
     public init(
         text: Binding<String>,
         focusTag: Binding<Int?>,
-        doneStringKey: String,
-        tableName: String,
         tag: Int,
         tapTextFieldSubject: PassthroughSubject<Int, Never>,
         editingChangedSubject: PassthroughSubject<Void, Never>,
@@ -25,8 +21,6 @@ public struct THCodeTextField: View {
     ) {
         self.text = text
         self.focusTag = focusTag
-        self.doneStringKey = doneStringKey
-        self.tableName = tableName
         self.tag = tag
         self.tapTextFieldSubject = tapTextFieldSubject
         self.editingChangedSubject = editingChangedSubject
@@ -37,8 +31,6 @@ public struct THCodeTextField: View {
         UITextFieldRepresentable(
             text: text,
             focusTag: focusTag,
-            doneStringKey: doneStringKey,
-            tableName: tableName,
             tag: tag,
             tapTextFieldSubject: tapTextFieldSubject,
             didBeginEditingSubject: viewModel.didBeginEditingSubject,

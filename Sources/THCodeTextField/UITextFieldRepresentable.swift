@@ -12,8 +12,6 @@ struct UITextFieldRepresentable: UIViewRepresentable {
     @Binding private var text: String
     @Binding private var focusTag: Int?
     
-    private let doneStringKey: String
-    private let tableName: String
     private let tag: Int
     
     private let tapTextFieldSubject: PassthroughSubject<Int, Never>
@@ -25,8 +23,6 @@ struct UITextFieldRepresentable: UIViewRepresentable {
     init(
         text: Binding<String>,
         focusTag: Binding<Int?>,
-        doneStringKey: String,
-        tableName: String,
         tag: Int,
         tapTextFieldSubject: PassthroughSubject<Int, Never>,
         didBeginEditingSubject: PassthroughSubject<Void, Never>,
@@ -36,8 +32,6 @@ struct UITextFieldRepresentable: UIViewRepresentable {
     ) {
         self._text = text
         self._focusTag = focusTag
-        self.doneStringKey = doneStringKey
-        self.tableName = tableName
         self.tag = tag
         self.tapTextFieldSubject = tapTextFieldSubject
         self.didBeginEditingSubject = didBeginEditingSubject
@@ -70,7 +64,7 @@ struct UITextFieldRepresentable: UIViewRepresentable {
         let toolBar = UIToolbar(frame: .init(x: .zero, y: .zero, width: textField.frame.size.width, height: 44))
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(
-            title: NSLocalizedString(doneStringKey, tableName: tableName, comment: ""),
+            title: "完了",
             style: .done,
             target: context.coordinator,
             action: #selector(context.coordinator.onTapDoneButton)
