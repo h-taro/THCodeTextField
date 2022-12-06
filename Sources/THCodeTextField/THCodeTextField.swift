@@ -8,7 +8,7 @@ public struct THCodeTextField: View {
     private var focusTag: Binding<Int?>
     private let tag: Int
     private let tapTextFieldSubject: PassthroughSubject<Int, Never>
-    private let editingChangedSubject: PassthroughSubject<Void, Never>
+    private let shouldChangeCharacterSubject: PassthroughSubject<Void, Never>
     private let deleteBackwardSubject: PassthroughSubject<Void, Never>
     
     public init(
@@ -16,14 +16,14 @@ public struct THCodeTextField: View {
         focusTag: Binding<Int?>,
         tag: Int,
         tapTextFieldSubject: PassthroughSubject<Int, Never>,
-        editingChangedSubject: PassthroughSubject<Void, Never>,
+        shouldChangeCharacterSubject: PassthroughSubject<Void, Never>,
         deleteBackwardSubject: PassthroughSubject<Void, Never>
     ) {
         self.text = text
         self.focusTag = focusTag
         self.tag = tag
         self.tapTextFieldSubject = tapTextFieldSubject
-        self.editingChangedSubject = editingChangedSubject
+        self.shouldChangeCharacterSubject = shouldChangeCharacterSubject
         self.deleteBackwardSubject = deleteBackwardSubject
     }
     
@@ -33,7 +33,7 @@ public struct THCodeTextField: View {
             focusTag: focusTag,
             tag: tag,
             tapTextFieldSubject: tapTextFieldSubject,
-            shouldChangeCharacterSubject: editingChangedSubject,
+            shouldChangeCharacterSubject: shouldChangeCharacterSubject,
             deleteBackwardSubject: deleteBackwardSubject,
             didBeginEditingSubject: viewModel.didBeginEditingSubject,
             didEndEditingSubject: viewModel.didEndEditingSubject
