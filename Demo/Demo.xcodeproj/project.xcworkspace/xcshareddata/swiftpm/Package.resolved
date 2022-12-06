@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "thcodetextfield",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/h-taro/THCodeTextField",
+      "state" : {
+        "revision" : "96b554eaf54dc91f7af03579f9e5c51e667115b1",
+        "version" : "0.0.13"
+      }
+    }
+  ],
+  "version" : 2
+}
