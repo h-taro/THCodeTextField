@@ -33,12 +33,11 @@ public struct THCodeTextField: View {
             focusTag: focusTag,
             tag: tag,
             tapTextFieldSubject: tapTextFieldSubject,
+            shouldChangeCharacterSubject: editingChangedSubject,
+            deleteBackwardSubject: deleteBackwardSubject,
             didBeginEditingSubject: viewModel.didBeginEditingSubject,
-            didEndEditingSubject: viewModel.didEndEditingSubject,
-            editingChangedSubject: editingChangedSubject,
-            deleteBackwardSubject: deleteBackwardSubject
+            didEndEditingSubject: viewModel.didEndEditingSubject
         )
-        .background(textFieldBackground)
     }
     
     private var textFieldBackground: some View {

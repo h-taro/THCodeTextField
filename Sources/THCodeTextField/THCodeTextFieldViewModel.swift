@@ -11,6 +11,7 @@ import Combine
 class THCodeTextFieldViewModel: ObservableObject {
     @Published private(set) var isFocused = false
     
+    private(set) var tapTextFieldSubject: PassthroughSubject<Int, Never> = .init()
     private(set) var didBeginEditingSubject: PassthroughSubject<Void, Never> = .init()
     private(set) var didEndEditingSubject: PassthroughSubject<Void, Never> = .init()
     private var cancellables: Set<AnyCancellable> = []

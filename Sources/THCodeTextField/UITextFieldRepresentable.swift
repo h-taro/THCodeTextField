@@ -17,7 +17,7 @@ struct UITextFieldRepresentable: UIViewRepresentable {
     private let tapTextFieldSubject: PassthroughSubject<Int, Never>
     private let didBeginEditingSubject: PassthroughSubject<Void, Never>
     private let didEndEditingSubject: PassthroughSubject<Void, Never>
-    private let editingChangedSubject: PassthroughSubject<Void, Never>
+    private let shouldChangeCharacterSubject: PassthroughSubject<Void, Never>
     private let deleteBackwardSubject: PassthroughSubject<Void, Never>
     
     init(
@@ -25,19 +25,19 @@ struct UITextFieldRepresentable: UIViewRepresentable {
         focusTag: Binding<Int?>,
         tag: Int,
         tapTextFieldSubject: PassthroughSubject<Int, Never>,
+        shouldChangeCharacterSubject: PassthroughSubject<Void, Never>,
+        deleteBackwardSubject: PassthroughSubject<Void, Never>,
         didBeginEditingSubject: PassthroughSubject<Void, Never>,
-        didEndEditingSubject: PassthroughSubject<Void, Never>,
-        editingChangedSubject: PassthroughSubject<Void, Never>,
-        deleteBackwardSubject: PassthroughSubject<Void, Never>
+        didEndEditingSubject: PassthroughSubject<Void, Never>
     ) {
         self._text = text
         self._focusTag = focusTag
         self.tag = tag
         self.tapTextFieldSubject = tapTextFieldSubject
+        self.shouldChangeCharacterSubject = shouldChangeCharacterSubject
+        self.deleteBackwardSubject = deleteBackwardSubject
         self.didBeginEditingSubject = didBeginEditingSubject
         self.didEndEditingSubject = didEndEditingSubject
-        self.editingChangedSubject = editingChangedSubject
-        self.deleteBackwardSubject = deleteBackwardSubject
     }
     
     func makeCoordinator() -> Coordinator {
@@ -99,11 +99,33 @@ struct UITextFieldRepresentable: UIViewRepresentable {
         }
         
         func textFieldDidBeginEditing(_ textField: UITextField) {
+            parent.tapTextFieldSubject.send(textField.tag)
             parent.didBeginEditingSubject.send()
         }
         
         func textFieldDidEndEditing(_ textField: UITextField) {
             parent.didEndEditingSubject.send()
+        }
+        
+        func textField(
+            _ textField: UITextField,
+            shouldChangeCharactersIn range: NSRange,
+            replacementString string: String
+        ) -> Bool {
+            guard let text = textField.text else { return false }
+            
+            if text.count < 1 {
+                parent.shouldChangeCharacterSubject.send()
+                return true
+            } else {
+                if string.isBackspace() {
+                    return true
+                } else {
+                    textField.selectAll(nil)
+                    parent.shouldChangeCharacterSubject.send()
+                    return true
+                }
+            }
         }
     }
 }
