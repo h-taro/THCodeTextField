@@ -90,8 +90,10 @@ struct UITextFieldRepresentable: UIViewRepresentable {
         }
 
         @objc func onEditingChanged(_ textField: UITextField) {
-            guard let text = textField.text else { return }
-            parent.text = text
+            Task { @MainActor in
+                guard let text = textField.text else { return }
+                parent.text = text
+            }
         }
 
         @objc func onTapDoneButton() {
