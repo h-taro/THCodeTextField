@@ -38,6 +38,7 @@ public struct THCodeTextField: View {
             didBeginEditingSubject: viewModel.didBeginEditingSubject,
             didEndEditingSubject: viewModel.didEndEditingSubject
         )
+        .background(textFieldBackground)
     }
     
     private var textFieldBackground: some View {
