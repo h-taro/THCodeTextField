@@ -107,25 +107,25 @@ struct UITextFieldRepresentable: UIViewRepresentable {
             parent.didEndEditingSubject.send()
         }
 
-//        func textField(
-//            _ textField: UITextField,
-//            shouldChangeCharactersIn range: NSRange,
-//            replacementString string: String
-//        ) -> Bool {
-//            guard let text = textField.text else { return false }
-//
-//            if text.count < 1 {
-//                parent.shouldChangeCharacterSubject.send()
-//                return true
-//            } else {
-//                if string.isBackspace() {
-//                    return true
-//                } else {
-//                    textField.selectAll(nil)
-//                    parent.shouldChangeCharacterSubject.send()
-//                    return true
-//                }
-//            }
-//        }
+        func textField(
+            _ textField: UITextField,
+            shouldChangeCharactersIn range: NSRange,
+            replacementString string: String
+        ) -> Bool {
+            guard let text = textField.text else { return false }
+
+            if text.count < 1 {
+                parent.shouldChangeCharacterSubject.send()
+                return true
+            } else {
+                if string.isBackspace() {
+                    return true
+                } else {
+                    textField.selectAll(nil)
+                    parent.shouldChangeCharacterSubject.send()
+                    return true
+                }
+            }
+        }
     }
 }
