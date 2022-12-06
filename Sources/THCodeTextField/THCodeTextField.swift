@@ -1,14 +1,67 @@
-//public struct THCodeTextField {
-//    public private(set) var text = "Hello, World!"
-//
-//    public init() {
-//    }
-//}
-
+import Combine
 import SwiftUI
 
 public struct THCodeTextField: View {
+    @StateObject private var viewModel: THCodeTextFieldViewModel = .init()
+    
+    private var text: Binding<String>
+    private var focusTag: Binding<Int?>
+    private let doneStringKey: String
+    private let tableName: String
+    private let tag: Int
+    private let tapTextFieldSubject: PassthroughSubject<Int, Never>
+    private let editingChangedSubject: PassthroughSubject<Void, Never>
+    private let deleteBackwardSubject: PassthroughSubject<Void, Never>
+    
+    public init(
+        text: Binding<String>,
+        focusTag: Binding<Int?>,
+        doneStringKey: String,
+        tableName: String,
+        tag: Int,
+        tapTextFieldSubject: PassthroughSubject<Int, Never>,
+        editingChangedSubject: PassthroughSubject<Void, Never>,
+        deleteBackwardSubject: PassthroughSubject<Void, Never>
+    ) {
+        self.text = text
+        self.focusTag = focusTag
+        self.doneStringKey = doneStringKey
+        self.tableName = tableName
+        self.tag = tag
+        self.tapTextFieldSubject = tapTextFieldSubject
+        self.editingChangedSubject = editingChangedSubject
+        self.deleteBackwardSubject = deleteBackwardSubject
+    }
+    
     public var body: some View {
-        EmptyView()
+        UITextFieldRepresentable(
+            text: text,
+            focusTag: focusTag,
+            doneStringKey: doneStringKey,
+            tableName: tableName,
+            tag: tag,
+            tapTextFieldSubject: tapTextFieldSubject,
+            didBeginEditingSubject: viewModel.didBeginEditingSubject,
+            didEndEditingSubject: viewModel.didEndEditingSubject,
+            editingChangedSubject: editingChangedSubject,
+            deleteBackwardSubject: deleteBackwardSubject
+        )
+        .background(textFieldBackground)
+    }
+    
+    private var textFieldBackground: some View {
+        Group {
+            if viewModel.isFocused {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.blue, lineWidth: 1)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.blue.opacity(0.1), lineWidth: 2)
+                    )
+            } else {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.gray.opacity(0.4))
+            }
+        }
     }
 }

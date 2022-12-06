@@ -16,7 +16,7 @@ struct UITextFieldRepresentable: UIViewRepresentable {
     private let tableName: String
     private let tag: Int
     
-    private let tapTextFieldSubject: PassthroughSubject<Void, Never>
+    private let tapTextFieldSubject: PassthroughSubject<Int, Never>
     private let didBeginEditingSubject: PassthroughSubject<Void, Never>
     private let didEndEditingSubject: PassthroughSubject<Void, Never>
     private let editingChangedSubject: PassthroughSubject<Void, Never>
@@ -28,7 +28,7 @@ struct UITextFieldRepresentable: UIViewRepresentable {
         doneStringKey: String,
         tableName: String,
         tag: Int,
-        tapTextFieldSubject: PassthroughSubject<Void, Never>,
+        tapTextFieldSubject: PassthroughSubject<Int, Never>,
         didBeginEditingSubject: PassthroughSubject<Void, Never>,
         didEndEditingSubject: PassthroughSubject<Void, Never>,
         editingChangedSubject: PassthroughSubject<Void, Never>,
@@ -83,6 +83,9 @@ struct UITextFieldRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: BaseUITextField, context: Context) {
+        if uiView.tag == focusTag {
+            uiView.becomeFirstResponder()
+        }
     }
     
     class Coordinator: NSObject, UITextFieldDelegate {
@@ -99,6 +102,9 @@ struct UITextFieldRepresentable: UIViewRepresentable {
         
         @objc func onTapDoneButton() {
             UIApplication.shared.endEditing()
+        }
+        
+        func textFieldDidBeginEditing(_ textField: UITextField) {
         }
     }
 }
