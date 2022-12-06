@@ -99,6 +99,11 @@ struct UITextFieldRepresentable: UIViewRepresentable {
         }
         
         func textFieldDidBeginEditing(_ textField: UITextField) {
+            parent.didBeginEditingSubject.send()
+        }
+        
+        func textFieldDidEndEditing(_ textField: UITextField) {
+            parent.didEndEditingSubject.send()
         }
     }
 }
